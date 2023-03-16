@@ -140,6 +140,7 @@ jobs:
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
             BUILD_PLATFORM=${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
+          platform: ${{ matrix.platform }}
           oci: false
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
