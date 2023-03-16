@@ -63,8 +63,10 @@ jobs:
         shell: bash
         run: |
           PLAFTORM_TAG=""
-          if ! [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
-            PLAFTORM_TAG="-${${{ matrix.platform }}/"linux/"/}"
+          UNCLEAN_PLATFORM="${{ matrix.platform }}"
+          CLEANED_PLATFORM="${UNCLEAN_PLATFORM/"linux/"/""}"
+          if ! [[ "$UNCLEAN_PLATFORM" == "linux/amd64" ]]; then
+            PLAFTORM_TAG="-$CLEANED_PLATFORM"
           fi
 
           # Generate a timestamp for creating an image version history
