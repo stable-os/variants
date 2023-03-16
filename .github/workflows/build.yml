@@ -65,8 +65,9 @@ jobs:
           PLAFTORM_TAG=""
           UNCLEAN_PLATFORM="${{ matrix.platform }}"
           CLEANED_PLATFORM="${UNCLEAN_PLATFORM/"linux/"/""}"
+          CLEANER_PLATFORM="${CLEANED_PLATFORM}/"/"/""}"
           if ! [[ "$UNCLEAN_PLATFORM" == "linux/amd64" ]]; then
-            PLAFTORM_TAG="-$CLEANED_PLATFORM"
+            PLAFTORM_TAG="-$CLEANER_PLATFORM"
           fi
 
           # Generate a timestamp for creating an image version history
