@@ -199,7 +199,7 @@ jobs:
         with:
           image-name: example-${{ matrix.fedora-version }}
           installer-major-version: ${{ matrix.fedora-version }}
-          kickstart-file-path: ublue.ks
+          kickstart-file-path: kickstart.ks
           
       - uses: actions/upload-artifact@v3
         with:
