@@ -16,7 +16,7 @@
                 "pipewire-codec-aptx",
                 "smartmontools",
                 "micro",
-                "reEFInd",
+                "rEFInd",
                 "zstd"
             ],
             "silverblue": [
