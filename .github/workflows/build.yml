@@ -151,6 +151,7 @@ jobs:
           platform: ${{ matrix.platform }}
           arch: ${{ steps.arch.outputs.value }}
           oci: false
+          
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
