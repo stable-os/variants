@@ -149,7 +149,6 @@ jobs:
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
             BUILD_PLATFORM=${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          platform: ${{ matrix.platform }}
           arch: ${{ steps.arch.outputs.value }}
           oci: false
           
