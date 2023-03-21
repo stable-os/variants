@@ -148,7 +148,7 @@ jobs:
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
           labels: ${{ steps.meta.outputs.labels }}
-          arch: ${{ steps.arch.outputs.value }}
+          archs: ${{ steps.arch.outputs.value }}
           oci: false
           
 
