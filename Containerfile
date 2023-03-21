@@ -20,6 +20,6 @@ RUN rm -rf /tmp/* /var/*
 RUN ostree container commit
 RUN mkdir -p /var/tmp && chmod -R 1777 /var/tmp
 
-RUN ostree status
-RUN ostree status -v
+RUN ostree admin status
+RUN ostree admin status -v
 RUN ls /ostree
