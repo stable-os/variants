@@ -2,9 +2,14 @@
     "all": {
         "include": {
             "all": [
+                "apr",
+                "apr-util",
                 "distrobox",
                 "ffmpeg",
                 "ffmpeg-libs",
+                "fzf",
+                "htop",
+                "intel-media-driver",
                 "just",
                 "kernel-devel-matched",
                 "libva-intel-driver",
