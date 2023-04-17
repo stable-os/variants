@@ -14,8 +14,6 @@
                 "kernel-devel-matched",
                 "libva-intel-driver",
                 "libva-utils",
-                "mesa-va-drivers-freeworld",
-                "mesa-filesystem",
                 "nvme-cli",
                 "nvtop",
                 "openssl",
@@ -173,8 +171,7 @@
                 "libavutil-free",
                 "libpostproc-free",
                 "libswresample-free",
-                "libswscale-free",
-                "mesa-va-drivers"
+                "libswscale-free"
             ],
             "mate": [
                 "python3-unbound",
