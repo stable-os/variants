@@ -5,6 +5,9 @@ on:
 name: release-please
 jobs:
   release-please:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,14 +32,16 @@ jobs:
     container: 
       image: fedora:38
       options: --privileged
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - name: Generate ISO  
-        uses: ublue-os/isogenerator@main
+        uses: ublue-os/isogenerator@v1.1.0
         id: isogenerator
         with:
-          image-name: universalblue-38
-          installer-repo: development
+          image-name: stable-os
+          installer-repo: releases
           installer-major-version: 38
       - name: install github CLI
         run: |
@@ -46,10 +51,19 @@ jobs:
       - name: Upload ISO
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run:
-          gh release upload ${{ needs.release-please.outputs.tag }} ${{ steps.isogenerator.outputs.iso-path }} -R stable-os/variants --clobber
+        run: |
+          gh release upload \
+            ${{ needs.release-please.outputs.tag }} \
+            ./${{ steps.isogenerator.outputs.iso-path }} \
+            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+            --clobber
+
       - name: Upload SHA256SUM
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run:
-          gh release upload ${{ needs.release-please.outputs.tag }} ${{ steps.isogenerator.outputs.sha256sum-path }} -R stable-os/variants --clobber
+        run: |
+          gh release upload \
+            ${{ needs.release-please.outputs.tag }} \
+            ./${{ steps.isogenerator.outputs.sha256sum-path }} \
+            --repo ${{ github.repository_owner }}/${{ github.event.repository.name }} \
+            --clobber
