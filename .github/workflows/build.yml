@@ -84,9 +84,9 @@ jobs:
           COMMIT_TAGS=()
           BUILD_TAGS=()
           # Have tags for tracking builds during pull request
-          SHA_SHORT="$(git rev-parse --short HEAD)"
-          COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}${PLAFTORM_TAG}")
-          COMMIT_TAGS+=("${SHA_SHORT}-${MAJOR_VERSION}${PLAFTORM_TAG}")
+          SHA_SHORT="${GITHUB_SHA::7}"
+          COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}${PLATFORM_TAG}")
+          COMMIT_TAGS+=("${SHA_SHORT}-${MAJOR_VERSION}${PLATFORM_TAG}")
           if [[ "${{ matrix.is_latest_version }}" == "true" ]] && \
              [[ "${{ matrix.is_stable_version }}" == "true" ]]; then
               COMMIT_TAGS+=("pr-${{ github.event.number }}${PLAFTORM_TAG}")
@@ -120,6 +120,12 @@ jobs:
           done
           echo "alias_tags=${alias_tags[*]}" >> $GITHUB_OUTPUT
 
+      - name: Get current version
+        id: labels
+        run: |
+          ver=$(skopeo inspect docker://quay.io/fedora-ostree-desktops/${{ env.SOURCE_IMAGE }}:${{ matrix.major_version }} | jq -r '.Labels["org.opencontainers.image.version"]')
+          echo "VERSION=$ver" >> $GITHUB_OUTPUT
+
       # Build metadata
       - name: Image Metadata
         uses: docker/metadata-action@v4
@@ -129,6 +135,7 @@ jobs:
             ${{ env.IMAGE_NAME }}
           labels: |
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
+            org.opencontainers.image.version=${{ steps.labels.outputs.VERSION }}
             org.opencontainers.image.description=A base ${{ env.IMAGE_NAME }} image with batteries included
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/main/main/README.md
             io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/120078124?s=200&v=4
@@ -192,9 +199,7 @@ jobs:
       - name: Sign container image
         #if: github.event_name != 'pull_request'
         run: |
-          echo "${{ env.COSIGN_PRIVATE_KEY }}" > cosign.key
-          wc -c cosign.key
-          cosign sign -y --key cosign.key ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY ${{ steps.registry_case.outputs.lowercase }}/${{ env.IMAGE_NAME }}@${TAGS}
         env:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
