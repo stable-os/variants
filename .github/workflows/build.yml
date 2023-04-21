@@ -154,6 +154,7 @@ jobs:
             IMAGE_NAME=${{ matrix.image_name }}
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
+            PLATFORM=${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           platform: ${{ matrix.platform }}
           oci: false
