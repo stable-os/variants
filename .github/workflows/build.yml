@@ -156,6 +156,7 @@ jobs:
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
           labels: ${{ steps.meta.outputs.labels }}
           archs: ${{ steps.arch.outputs.value }}
+          platform: ${{ matrix.platform }}
           oci: false
           
 
