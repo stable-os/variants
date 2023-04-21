@@ -50,6 +50,9 @@ jobs:
       - name: Checkout Push to Registry action
         uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
       - name: Matrix Variables
         run: |
           if [[ "${{ matrix.image_name }}" == "lxqt" || "${{ matrix.image_name }}" == "mate" ]]; then
