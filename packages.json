@@ -162,6 +162,9 @@
             ],
             "sericea": [
                 "tumbler"
+            ],
+            "recovery": [
+                "lxde-common"
             ]
         },
         "exclude": {
