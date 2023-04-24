@@ -143,6 +143,9 @@ jobs:
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/main/main/README.md
             io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/120078124?s=200&v=4
 
+      - name: Set architecture env
+        run: echo "ARCHITECTURE=${PLATFORM/"linux/"/""}" >> $GITHUB_ENV
+
       # Build image using Buildah action
       - name: Build Image
         id: build_image
@@ -157,6 +160,7 @@ jobs:
             IMAGE_NAME=${{ matrix.image_name }}
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
+            ARCHITECTURE=${{ env.ARCHITECTURE }}
           labels: ${{ steps.meta.outputs.labels }}
           platform: ${{ matrix.platform }}
           oci: false
