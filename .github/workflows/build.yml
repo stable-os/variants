@@ -32,6 +32,7 @@ jobs:
       matrix:
         image_name: [silverblue, kinoite, vauxite, sericea, base, lxqt, mate]
         major_version: [37, 38]
+        platform: ["linux/amd64", "linux/arm64"]
         include:
           - major_version: 37
             is_latest_version: true
@@ -49,6 +50,9 @@ jobs:
       - name: Checkout Push to Registry action
         uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
       - name: Matrix Variables
         run: |
           if [[ "${{ matrix.image_name }}" == "lxqt" || "${{ matrix.image_name }}" == "mate" ]]; then
@@ -58,10 +62,25 @@ jobs:
           fi
           echo "IMAGE_NAME=${{ format('{0}-{1}', matrix.image_name, env.IMAGE_BASE_NAME) }}" >> $GITHUB_ENV
 
+      - name: Run find-and-replace to remove linux/ from arch
+        uses: mad9000/actions-find-and-replace-string@1
+        id: arch
+        with:
+          source: ${{ matrix.platform }}
+          find: 'linux/'
+          replace: ''
+
       - name: Generate tags
         id: generate-tags
         shell: bash
         run: |
+          PLAFTORM_TAG=""
+          UNCLEAN_PLATFORM="${{ matrix.platform }}"
+          CLEANED_PLATFORM="${UNCLEAN_PLATFORM/"linux/"/""}"
+          if ! [[ "$UNCLEAN_PLATFORM" == "linux/amd64" ]]; then
+            PLAFTORM_TAG="-$CLEANED_PLATFORM"
+          fi
+
           # Generate a timestamp for creating an image version history
           TIMESTAMP="$(date +%Y%m%d)"
           MAJOR_VERSION="${{ matrix.major_version }}"
@@ -69,19 +88,20 @@ jobs:
           BUILD_TAGS=()
           # Have tags for tracking builds during pull request
           SHA_SHORT="${GITHUB_SHA::7}"
-          COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}")
-          COMMIT_TAGS+=("${SHA_SHORT}-${MAJOR_VERSION}")
+          COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}${PLATFORM_TAG}")
+          COMMIT_TAGS+=("${SHA_SHORT}-${MAJOR_VERSION}${PLATFORM_TAG}")
           if [[ "${{ matrix.is_latest_version }}" == "true" ]] && \
              [[ "${{ matrix.is_stable_version }}" == "true" ]]; then
-              COMMIT_TAGS+=("pr-${{ github.event.number }}")
-              COMMIT_TAGS+=("${SHA_SHORT}")
+              COMMIT_TAGS+=("pr-${{ github.event.number }}${PLAFTORM_TAG}")
+              COMMIT_TAGS+=("${SHA_SHORT}${PLAFTORM_TAG}")
           fi
 
-          BUILD_TAGS=("${MAJOR_VERSION}" "${MAJOR_VERSION}-${TIMESTAMP}")
+          BUILD_TAGS=("${MAJOR_VERSION}${PLAFTORM_TAG}" "${MAJOR_VERSION}-${TIMESTAMP}${PLAFTORM_TAG}")
 
           if [[ "${{ matrix.is_latest_version }}" == "true" ]] && \
              [[ "${{ matrix.is_stable_version }}" == "true" ]]; then
-              BUILD_TAGS+=("latest")
+              BUILD_TAGS+=("${TIMESTAMP}${PLAFTORM_TAG}")
+              BUILD_TAGS+=("latest${PLAFTORM_TAG}")
           fi
 
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -123,6 +143,9 @@ jobs:
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/main/main/README.md
             io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/120078124?s=200&v=4
 
+      - name: Set architecture env
+        run: echo "ARCHITECTURE=${PLATFORM/"linux/"/""}" >> $GITHUB_ENV
+
       # Build image using Buildah action
       - name: Build Image
         id: build_image
@@ -137,8 +160,11 @@ jobs:
             IMAGE_NAME=${{ matrix.image_name }}
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
             FEDORA_MAJOR_VERSION=${{ matrix.major_version }}
+            ARCHITECTURE=${{ env.ARCHITECTURE }}
           labels: ${{ steps.meta.outputs.labels }}
+          platform: ${{ matrix.platform }}
           oci: false
+          
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
