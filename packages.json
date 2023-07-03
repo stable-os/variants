@@ -40,7 +40,10 @@
                 "traceroute",
                 "vim",
                 "zstd",
-                "wireguard-tools"
+                "wireguard-tools",
+                "micro",
+                "rEFInd",
+                "zstd"
             ],
             "silverblue": [
                 "adw-gtk3-theme",
@@ -240,7 +243,7 @@
                 "f38-backgrounds-extras-mate",
                 "f38-backgrounds-mate"
             ],
-            "kinoite":[
+            "kinoite": [
                 "xwaylandvideobridge"
             ]
         },

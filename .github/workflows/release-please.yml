@@ -19,6 +19,7 @@ jobs:
         with:
           release-type: node
           package-name: release-please-action
+          token: ${{ secrets.REPO_SECRET }}
 
   build-iso:
     name: Generate and Release ISOs
@@ -36,7 +37,7 @@ jobs:
         uses: ublue-os/isogenerator@v2.0.2
         id: isogenerator
         with:
-          image-name: universalblue
+          image-name: stable-os
           installer-repo: releases
           installer-major-version: 38
           boot-menu-path: boot_menu.yml
