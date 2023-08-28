@@ -2,6 +2,7 @@
     "all": {
         "include": {
             "all": [
+                "alsa-firmware",
                 "apr",
                 "apr-util",
                 "distrobox",
@@ -191,11 +192,13 @@
                 "xrdb"
             ],
             "sericea": [
-                "tumbler"
+                "tumbler",
+                "clipman"
             ],
             "vauxite": [
                 "raw-thumbnailer",
-                "xfce4-clipman-plugin"
+                "xfce4-clipman-plugin",
+                "xfce4-whiskermenu-plugin"
             ]
         },
         "exclude": {
@@ -211,6 +214,7 @@
                 "mesa-va-drivers"
             ],
             "kinoite": [
+                "plasma-discover-rpm-ostree",
                 "ffmpegthumbnailer",
                 "kwrite"
             ],
@@ -242,9 +246,6 @@
                 "f38-backgrounds-extras-base",
                 "f38-backgrounds-extras-mate",
                 "f38-backgrounds-mate"
-            ],
-            "kinoite": [
-                "xwaylandvideobridge"
             ]
         },
         "exclude": {

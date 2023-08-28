@@ -30,7 +30,11 @@ for REPO in $(rpm -ql ublue-os-akmods-addons|grep ^"/etc"|grep repo$); do
     sed -i '0,/enabled=0/{s/enabled=0/enabled=1/}' ${REPO}
 done
 
-rpm-ostree install /tmp/akmods-rpms/kmods/*.rpm
+rpm-ostree install \
+    /tmp/akmods-rpms/kmods/*v4l2loopback*.rpm \
+    /tmp/akmods-rpms/kmods/*xpadneo*.rpm \
+    /tmp/akmods-rpms/kmods/*xone*.rpm \
+    /tmp/akmods-rpms/kmods/*xpad-noone*.rpm
 
 for REPO in $(rpm -ql ublue-os-akmods-addons|grep ^"/etc"|grep repo$); do
     echo "akmods: disable per defaults: ${REPO}"
@@ -54,3 +58,6 @@ else
     echo "No packages to install."
 
 fi
+
+## install packages direct from github
+/tmp/github-release-install.sh sigstore/cosign x86_64
