@@ -3,6 +3,7 @@
         "include": {
             "all": [
                 "alsa-firmware",
+                "android-udev-rules",
                 "apr",
                 "apr-util",
                 "distrobox",
@@ -15,9 +16,6 @@
                 "htop",
                 "intel-media-driver",
                 "just",
-                "kernel-devel-matched",
-                "kernel-tools",
-                "libheif-freeworld",
                 "libheif-tools",
                 "libratbag-ratbagd",
                 "libva-intel-driver",
@@ -31,7 +29,9 @@
                 "nvme-cli",
                 "nvtop",
                 "openrgb-udev-rules",
+                "solaar-udev",
                 "openssl",
+                "oversteer-udev",
                 "podman-compose",
                 "pipewire-codec-aptx",
                 "smartmontools",
@@ -48,8 +48,7 @@
             ],
             "silverblue": [
                 "adw-gtk3-theme",
-                "gnome-tweaks",
-                "raw-thumbnailer"
+                "gnome-tweaks"
             ],
             "kinoite": [
                 "icoutils",
@@ -178,7 +177,6 @@
                 "pipewire-alsa",
                 "pipewire-pulseaudio",
                 "pluma",
-                "raw-thumbnailer",
                 "seahorse",
                 "seahorse-caja",
                 "setroubleshoot",
@@ -196,7 +194,6 @@
                 "clipman"
             ],
             "vauxite": [
-                "raw-thumbnailer",
                 "xfce4-clipman-plugin",
                 "xfce4-whiskermenu-plugin"
             ]
@@ -211,7 +208,8 @@
                 "libpostproc-free",
                 "libswresample-free",
                 "libswscale-free",
-                "mesa-va-drivers"
+                "mesa-va-drivers",
+                "google-noto-sans-cjk-vf-fonts"
             ],
             "kinoite": [
                 "plasma-discover-rpm-ostree",
@@ -226,12 +224,21 @@
     },
     "37": {
         "include": {
-            "all": [],
+            "all": [
+                "google-noto-sans-cjk-fonts"
+            ],
+            "silverblue": [
+                "raw-thumbnailer"
+            ],
             "mate": [
                 "f37-backgrounds-base",
                 "f37-backgrounds-extras-base",
                 "f37-backgrounds-extras-mate",
-                "f37-backgrounds-mate"
+                "f37-backgrounds-mate",
+                "raw-thumbnailer"
+            ],
+            "vauxite": [
+                "raw-thumbnailer"
             ]
         },
         "exclude": {
@@ -240,16 +247,41 @@
     },
     "38": {
         "include": {
-            "all": [],
+            "all": [
+                "google-noto-sans-cjk-fonts"
+            ],
+            "silverblue": [
+                "raw-thumbnailer"
+            ],
             "mate": [
                 "f38-backgrounds-base",
                 "f38-backgrounds-extras-base",
                 "f38-backgrounds-extras-mate",
-                "f38-backgrounds-mate"
+                "f38-backgrounds-mate",
+                "raw-thumbnailer"
+            ],
+            "vauxite": [
+                "raw-thumbnailer"
+            ],
+            "kinoite": [
+                "xwaylandvideobridge"
             ]
         },
         "exclude": {
             "all": []
+        }
+    },
+    "39": {
+        "include": {
+            "all": [],
+            "kinoite": [
+                "xwaylandvideobridge"
+            ]
+        },
+        "exclude": {
+            "all": [
+                "default-fonts-cjk-sans"
+            ]
         }
     }
 }
