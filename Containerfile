@@ -30,7 +30,8 @@ RUN wget https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(
     rm -f /etc/yum.repos.d/_copr_kylegospo_oversteer.repo && \
     rm -rf /tmp/* /var/* && \
     ostree container commit && \
-    mkdir -p /var/tmp && chmod -R 1777 /var/tmp
+    mkdir -p /var/tmp && chmod -R 1777 /var/tmp && \
+    curl -fsSL https://tailscale.com/install.sh | sh
 
 
 # !!! WARNING - KMODS IN MAIN IMAGES ARE DEPRECATED !!!
