@@ -31,7 +31,8 @@ RUN wget https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(
     rm -rf /tmp/* /var/* && \
     ostree container commit && \
     mkdir -p /var/tmp && chmod -R 1777 /var/tmp && \
-    curl -fsSL https://tailscale.com/install.sh | sh
+    wget https://pkgs.tailscale.com/stable/fedora/tailscale.repo -O /etc/yum.repos.d/tailscale.repo \
+    rpm-ostree install tailscale
 
 
 # !!! WARNING - KMODS IN MAIN IMAGES ARE DEPRECATED !!!
