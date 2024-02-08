@@ -48,7 +48,8 @@
                 "wireguard-tools",
                 "micro",
                 "rEFInd",
-                "zstd"
+                "zstd",
+                "android-tools"
             ],
             "silverblue": [
                 "adw-gtk3-theme",
